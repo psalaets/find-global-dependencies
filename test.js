@@ -196,6 +196,6 @@ test('ignores this at top level', function(t) {
   setEquals(t, result, new Set([]));
 });
 
-function setEquals(t, set1, set2) {
-  t.deepEquals([...set1].sort(), [...set2].sort());
+function setEquals(t, actual, expected) {
+  t.deepEquals([...actual].sort(), [...expected].sort());
 }
