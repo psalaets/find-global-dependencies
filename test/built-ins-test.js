@@ -102,3 +102,16 @@ test('can ignore any combo of additional built-ins', function(t) {
 
   setEquals(t, result, new Set([]));
 });
+
+test('blows up when given unknown additional ignores list', function(t) {
+  t.plan(1);
+
+
+  var code = `foo`;
+
+  t.throws(() => {
+    find(code, {
+      additionalIgnoreLists: ['asdf']
+    });
+  }, /Invalid ignore list/);
+});

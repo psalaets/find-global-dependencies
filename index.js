@@ -6,6 +6,7 @@ module.exports = findGlobalDeps;
 
 function findGlobalDeps(code, options = {additionalIgnoreLists: []}) {
   var globalDeps = new Set();
+  var isOnIgnoreList = makeIgnoreListChecker(options.additionalIgnoreLists);
 
   var ast = babylon.parse(code);
   traverse(ast, {
@@ -17,12 +18,9 @@ function findGlobalDeps(code, options = {additionalIgnoreLists: []}) {
 
         var identifierName = path.node.name;
 
-        var isIgnored = options.additionalIgnoreLists.some(listName => {
-          var listObject = globals[listName];
-          return identifierName in listObject;
-        });
-
-        if (isIgnored) return;
+        if (isOnIgnoreList(identifierName)) {
+          return;
+        }
 
         var parent = path.findParent(path => path.isBlock() || path.isFunction())
         var bindingExists = parent.scope.hasBinding(identifierName);
@@ -35,4 +33,16 @@ function findGlobalDeps(code, options = {additionalIgnoreLists: []}) {
   });
 
   return globalDeps;
+}
+
+function makeIgnoreListChecker(listNames) {
+  var listObjects = listNames.map(name => globals[name] || invalidList(name));
+
+  return function isOnIgnoreList(identifierName) {
+    return listObjects.some(listObject => identifierName in listObject);
+  };
+}
+
+function invalidList(name) {
+  throw new Error(`Invalid ignore list: ${name}. Expected: ${Object.keys(globals).join(', ')}`);
 }
