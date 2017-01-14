@@ -1,5 +1,5 @@
 var test = require('tape');
-var find = require('.');
+var find = require('..');
 
 test('finds access at top level', function(t) {
   t.plan(1);

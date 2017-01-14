@@ -1,7 +1,7 @@
 var test = require('tape');
 var globals = require('globals');
 
-var find = require('.');
+var find = require('..');
 
 test('ignores javascript built-ins', function(t) {
   t.plan(1);
