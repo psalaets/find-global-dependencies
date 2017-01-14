@@ -7,7 +7,7 @@ test('finds access at top level', function(t) {
   var code = 'foo + 3';
   var result = find(code);
 
-  t.deepEquals(result, ['foo']);
+  setEquals(t, result, new Set(['foo']));
 });
 
 test('ignores declared variable at top level', function(t) {
@@ -19,7 +19,7 @@ test('ignores declared variable at top level', function(t) {
   `;
   var result = find(code);
 
-  t.deepEquals(result, []);
+  setEquals(t, result, new Set());
 });
 
 test('finds access in function', function(t) {
@@ -32,7 +32,7 @@ test('finds access in function', function(t) {
   `;
   var result = find(code);
 
-  t.deepEquals(result, ['foo']);
+  setEquals(t, result, new Set(['foo']));
 });
 
 test('ignores parameter access in function', function(t) {
@@ -45,7 +45,7 @@ test('ignores parameter access in function', function(t) {
   `;
   var result = find(code);
 
-  t.deepEquals(result, []);
+  setEquals(t, result, new Set());
 });
 
 test('ignores variable declared at higher level', function(t) {
@@ -60,5 +60,9 @@ test('ignores variable declared at higher level', function(t) {
   `;
   var result = find(code);
 
-  t.deepEquals(result, []);
+  setEquals(t, result, new Set());
 });
+
+function setEquals(t, set1, set2) {
+  t.deepEquals([...set1], [...set2]);
+}

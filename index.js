@@ -16,10 +16,9 @@ var traverse = require('babel-traverse').default;
 module.exports = findGlobalDeps;
 
 function findGlobalDeps(code) {
+  var globalDeps = new Set();
+
   var ast = babylon.parse(code);
-
-  var globalDeps = [];
-
   traverse(ast, {
     Identifier: {
       enter(path) {
@@ -28,8 +27,8 @@ function findGlobalDeps(code) {
         var parent = path.getFunctionParent();
         var bindingExists = parent.scope.hasBinding(identifierName);
 
-        if (!bindingExists && !globalDeps.includes(identifierName)) {
-          globalDeps.push(identifierName);
+        if (!bindingExists) {
+          globalDeps.add(identifierName);
         }
       }
     }
