@@ -63,6 +63,36 @@ test('ignores variable declared at higher level', function(t) {
   setEquals(t, result, new Set());
 });
 
+test('ignores function declared at higher level', function(t) {
+  t.plan(1);
+
+  var code = `
+    function foo() {
+      return 1;
+    }
+
+    function bar() {
+      return foo;
+    }
+  `;
+  var result = find(code);
+
+  setEquals(t, result, new Set());
+});
+
+test('ignores function expression using its name', function(t) {
+  t.plan(1);
+
+  var code = `
+    var blah = function foo() {
+      return foo(4);
+    };
+  `;
+  var result = find(code);
+
+  setEquals(t, result, new Set());
+});
+
 test('ignores property access', function(t) {
   t.plan(1);
 
@@ -89,6 +119,31 @@ test('finds multiple accesses at various levels', function(t) {
 
   setEquals(t, result, new Set(['foo', 'bar']));
 });
+
+test('finds use in computed property name', function(t) {
+  t.plan(1);
+
+  var code = `
+    var a = {
+      [foo]: 4
+    };
+  `;
+  var result = find(code);
+
+  setEquals(t, result, new Set(['foo']));
+});
+
+test('finds use in array spread', function(t) {
+  t.plan(1);
+
+  var code = `
+    var a = [...foo];
+  `;
+  var result = find(code);
+
+  setEquals(t, result, new Set(['foo']));
+});
+
 
 function setEquals(t, set1, set2) {
   t.deepEquals([...set1].sort(), [...set2].sort());
