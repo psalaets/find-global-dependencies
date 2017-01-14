@@ -1,0 +1,19 @@
+{
+  "name": "find-global-dependencies",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "tape test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tape": "^4.6.3"
+  },
+  "dependencies": {
+    "babel-traverse": "^6.21.0",
+    "babylon": "^6.15.0"
+  }
+}
