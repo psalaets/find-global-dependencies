@@ -80,6 +80,21 @@ test('ignores function declared at higher level', function(t) {
   setEquals(t, result, new Set());
 });
 
+test('ignores class declared at higher level', function(t) {
+  t.plan(1);
+
+  var code = `
+    class Foo {}
+
+    function bar() {
+      return Foo;
+    }
+  `;
+  var result = find(code);
+
+  setEquals(t, result, new Set());
+});
+
 test('ignores function expression using its name', function(t) {
   t.plan(1);
 
@@ -144,6 +159,42 @@ test('finds use in array spread', function(t) {
   setEquals(t, result, new Set(['foo']));
 });
 
+test('ignores arguments object in function', function(t) {
+  t.plan(1);
+
+  var code = `
+    function a() {
+      return arguments;
+    }
+  `;
+  var result = find(code);
+
+  setEquals(t, result, new Set([]));
+});
+
+test('ignores this in function', function(t) {
+  t.plan(1);
+
+  var code = `
+    function a() {
+      return this;
+    }
+  `;
+  var result = find(code);
+
+  setEquals(t, result, new Set([]));
+});
+
+test('ignores this at top level', function(t) {
+  t.plan(1);
+
+  var code = `
+    this;
+  `;
+  var result = find(code);
+
+  setEquals(t, result, new Set([]));
+});
 
 function setEquals(t, set1, set2) {
   t.deepEquals([...set1].sort(), [...set2].sort());
