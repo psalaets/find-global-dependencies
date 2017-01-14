@@ -75,6 +75,21 @@ test('ignores property access', function(t) {
   setEquals(t, result, new Set([]));
 });
 
+test('finds multiple accesses at various levels', function(t) {
+  t.plan(1);
+
+  var code = `
+    foo();
+
+    function asdf() {
+      return bar;
+    }
+  `;
+  var result = find(code);
+
+  setEquals(t, result, new Set(['foo', 'bar']));
+});
+
 function setEquals(t, set1, set2) {
-  t.deepEquals([...set1], [...set2]);
+  t.deepEquals([...set1].sort(), [...set2].sort());
 }
