@@ -196,6 +196,34 @@ test('ignores this at top level', function(t) {
   setEquals(t, result, new Set([]));
 });
 
+test('ignores let in a block', function(t) {
+  t.plan(1);
+
+  var code = `
+    {
+      let foo = 9;
+      foo + 3;
+    }
+  `;
+  var result = find(code);
+
+  setEquals(t, result, new Set([]));
+});
+
+test('ignores const in a block', function(t) {
+  t.plan(1);
+
+  var code = `
+    {
+      const foo = 9;
+      foo + 3;
+    }
+  `;
+  var result = find(code);
+
+  setEquals(t, result, new Set([]));
+});
+
 function setEquals(t, actual, expected) {
   t.deepEquals([...actual].sort(), [...expected].sort());
 }
