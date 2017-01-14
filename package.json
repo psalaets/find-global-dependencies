@@ -10,11 +10,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "globals": "^9.14.0",
     "tape": "^4.6.3"
   },
   "dependencies": {
     "babel-traverse": "^6.21.0",
-    "babylon": "^6.15.0"
+    "babylon": "^6.15.0",
+    "globals": "^9.14.0"
   }
 }
