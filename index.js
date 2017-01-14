@@ -24,6 +24,10 @@ function findGlobalDeps(code) {
       enter(path) {
         var identifierName = path.node.name;
 
+        if (path.findParent(path => path.isMemberExpression())) {
+          return;
+        }
+
         var parent = path.getFunctionParent();
         var bindingExists = parent.scope.hasBinding(identifierName);
 

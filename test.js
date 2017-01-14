@@ -63,6 +63,18 @@ test('ignores variable declared at higher level', function(t) {
   setEquals(t, result, new Set());
 });
 
+test('ignores property access', function(t) {
+  t.plan(1);
+
+  var code = `
+    var foo;
+    foo.name;
+  `;
+  var result = find(code);
+
+  setEquals(t, result, new Set([]));
+});
+
 function setEquals(t, set1, set2) {
   t.deepEquals([...set1], [...set2]);
 }
