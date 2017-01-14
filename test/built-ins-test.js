@@ -1,5 +1,6 @@
 var test = require('tape');
 var globals = require('globals');
+var setEquals = require('./set-equals-helper');
 
 var find = require('..');
 
@@ -13,7 +14,3 @@ test('ignores javascript built-ins', function(t) {
 
   setEquals(t, result, new Set([]));
 });
-
-function setEquals(t, actual, expected) {
-  t.deepEquals([...actual].sort(), [...expected].sort());
-}

@@ -1,4 +1,6 @@
 var test = require('tape');
+var setEquals = require('./set-equals-helper');
+
 var find = require('..');
 
 test('finds access at top level', function(t) {
@@ -223,7 +225,3 @@ test('ignores const in a block', function(t) {
 
   setEquals(t, result, new Set([]));
 });
-
-function setEquals(t, actual, expected) {
-  t.deepEquals([...actual].sort(), [...expected].sort());
-}
