@@ -12,22 +12,11 @@ function findGlobalDeps(code, options = {additionalIgnoreLists: []}) {
   traverse(ast, {
     Identifier: {
       enter(path) {
-        if (path.findParent(path => path.isMemberExpression())) {
-          return;
-        }
+        if (isOnIgnoreList(path)) return;
+        if (isInMemberExpression(path)) return;
+        if (hasBinding(path)) return;
 
-        var identifierName = path.node.name;
-
-        if (isOnIgnoreList(identifierName)) {
-          return;
-        }
-
-        var parent = path.findParent(path => path.isBlock() || path.isFunction())
-        var bindingExists = parent.scope.hasBinding(identifierName);
-
-        if (!bindingExists) {
-          globalDeps.add(identifierName);
-        }
+        globalDeps.add(path.node.name);
       }
     }
   });
@@ -35,10 +24,20 @@ function findGlobalDeps(code, options = {additionalIgnoreLists: []}) {
   return globalDeps;
 }
 
+function hasBinding(path) {
+  var parent = path.findParent(path => path.isBlock() || path.isFunction())
+  return parent.scope.hasBinding(path.node.name);
+}
+
+function isInMemberExpression(path) {
+  return !!path.findParent(path => path.isMemberExpression());
+}
+
 function makeIgnoreListChecker(listNames) {
   var listObjects = listNames.map(name => globals[name] || invalidList(name));
 
-  return function isOnIgnoreList(identifierName) {
+  return function isOnIgnoreList(path) {
+    var identifierName = path.node.name;
     return listObjects.some(listObject => identifierName in listObject);
   };
 }
