@@ -15,7 +15,18 @@ test('ignores javascript built-ins', function(t) {
   setEquals(t, result, new Set([]));
 });
 
-test('can also ignore browser built-ins', function(t) {
+test('finds browser built-ins by default', function(t) {
+  t.plan(1);
+
+  var code = `
+    setTimeout;
+  `;
+  var result = find(code);
+
+  setEquals(t, result, new Set(['setTimeout']));
+});
+
+test('can ignore browser built-ins', function(t) {
   t.plan(1);
 
   var code = `
@@ -29,7 +40,18 @@ test('can also ignore browser built-ins', function(t) {
   setEquals(t, result, new Set([]));
 });
 
-test('can also ignore node built-ins', function(t) {
+test('finds node built-ins by default', function(t) {
+  t.plan(1);
+
+  var code = `
+    process;
+  `;
+  var result = find(code);
+
+  setEquals(t, result, new Set(['process']));
+});
+
+test('can ignore node built-ins', function(t) {
   t.plan(1);
 
   var code = `
@@ -41,6 +63,17 @@ test('can also ignore node built-ins', function(t) {
   });
 
   setEquals(t, result, new Set([]));
+});
+
+test('finds serviceworker built-ins by default', function(t) {
+  t.plan(1);
+
+  var code = `
+    MessageChannel;
+  `;
+  var result = find(code);
+
+  setEquals(t, result, new Set(['MessageChannel']));
 });
 
 test('can also ignore serviceworker built-ins', function(t) {
@@ -57,6 +90,17 @@ test('can also ignore serviceworker built-ins', function(t) {
   setEquals(t, result, new Set([]));
 });
 
+test('finds commonjs built-ins by default', function(t) {
+  t.plan(1);
+
+  var code = `
+    module;
+  `;
+  var result = find(code);
+
+  setEquals(t, result, new Set(['module']));
+});
+
 test('can also ignore commonjs built-ins', function(t) {
   t.plan(1);
 
@@ -69,6 +113,17 @@ test('can also ignore commonjs built-ins', function(t) {
   });
 
   setEquals(t, result, new Set([]));
+});
+
+test('finds amd built-ins by default', function(t) {
+  t.plan(1);
+
+  var code = `
+    define;
+  `;
+  var result = find(code);
+
+  setEquals(t, result, new Set(['define']));
 });
 
 test('can also ignore amd built-ins', function(t) {
@@ -105,7 +160,6 @@ test('can ignore any combo of additional built-ins', function(t) {
 
 test('blows up when given unknown additional ignores list', function(t) {
   t.plan(1);
-
 
   var code = `foo`;
 
