@@ -4,9 +4,11 @@ var globals = require('globals');
 
 module.exports = findGlobalDeps;
 
-function findGlobalDeps(code, options = {environment: ['builtin', 'browser']}) {
+function findGlobalDeps(code, options = {}) {
+  var environment = options.environment || ['builtin', 'browser'];
+
   var globalDeps = new Set();
-  var isOnIgnoreList = makeIgnoreListChecker(options.environment);
+  var isOnIgnoreList = makeIgnoreListChecker(environment);
 
   var ast = babylon.parse(code);
   traverse(ast, {
