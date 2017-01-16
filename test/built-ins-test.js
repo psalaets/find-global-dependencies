@@ -12,7 +12,7 @@ test('ignores javascript built-ins', function(t) {
   `;
   var result = find(code);
 
-  setEquals(t, result, new Set([]));
+  setEquals(t, result, new Set());
 });
 
 test('finds browser built-ins by default', function(t) {
@@ -37,7 +37,7 @@ test('can ignore browser built-ins', function(t) {
     additionalIgnoreLists: ['browser']
   });
 
-  setEquals(t, result, new Set([]));
+  setEquals(t, result, new Set());
 });
 
 test('finds node built-ins by default', function(t) {
@@ -62,7 +62,7 @@ test('can ignore node built-ins', function(t) {
     additionalIgnoreLists: ['node']
   });
 
-  setEquals(t, result, new Set([]));
+  setEquals(t, result, new Set());
 });
 
 test('finds serviceworker built-ins by default', function(t) {
@@ -87,7 +87,7 @@ test('can also ignore serviceworker built-ins', function(t) {
     additionalIgnoreLists: ['worker']
   });
 
-  setEquals(t, result, new Set([]));
+  setEquals(t, result, new Set());
 });
 
 test('finds commonjs built-ins by default', function(t) {
@@ -112,7 +112,7 @@ test('can also ignore commonjs built-ins', function(t) {
     additionalIgnoreLists: ['commonjs']
   });
 
-  setEquals(t, result, new Set([]));
+  setEquals(t, result, new Set());
 });
 
 test('finds amd built-ins by default', function(t) {
@@ -137,7 +137,7 @@ test('can also ignore amd built-ins', function(t) {
     additionalIgnoreLists: ['amd']
   });
 
-  setEquals(t, result, new Set([]));
+  setEquals(t, result, new Set());
 });
 
 test('can ignore any combo of additional built-ins', function(t) {
@@ -155,7 +155,7 @@ test('can ignore any combo of additional built-ins', function(t) {
     additionalIgnoreLists: 'browser node worker commonjs amd'.split(' ')
   });
 
-  setEquals(t, result, new Set([]));
+  setEquals(t, result, new Set());
 });
 
 test('blows up when given unknown additional ignores list', function(t) {
