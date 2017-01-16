@@ -1,14 +1,19 @@
 {
   "name": "find-global-deps",
   "version": "1.0.0",
-  "description": "",
+  "description": "Find what global variables are used in js code",
   "main": "index.js",
   "scripts": {
     "test": "tape 'test/*test.js'"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["global", "dependency", "detect", "legacy", "imports", "loader"],
+  "author": "Paul Salaets <psalaets@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/psalaets/find-global-deps",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/psalaets/find-global-deps.git"
+  },
   "devDependencies": {
     "tape": "^4.6.3"
   },
