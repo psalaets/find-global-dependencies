@@ -14,6 +14,7 @@ function findGlobalDeps(code, options = {additionalIgnoreLists: []}) {
       enter(path) {
         if (isOnIgnoreList(path)) return;
         if (isInMemberExpression(path)) return;
+        if (isObjectPropertyName(path)) return;
         if (hasBinding(path)) return;
 
         globalDeps.add(path.node.name);
@@ -27,6 +28,14 @@ function findGlobalDeps(code, options = {additionalIgnoreLists: []}) {
 function hasBinding(path) {
   var parent = path.findParent(path => path.isBlock() || path.isFunction())
   return parent.scope.hasBinding(path.node.name);
+}
+
+function isObjectPropertyName(path) {
+  var parent = path.parentPath;
+  if (parent.isObjectProperty()) {
+    return !parent.node.computed && parent.node.key === path.node;
+  }
+  return false;
 }
 
 function isInMemberExpression(path) {

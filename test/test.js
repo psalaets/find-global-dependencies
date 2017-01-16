@@ -225,3 +225,43 @@ test('ignores const in a block', function(t) {
 
   setEquals(t, result, new Set([]));
 });
+
+test('ignores property names in object literal', function(t) {
+  t.plan(1);
+
+  var code = `
+    var a = {
+      name: 'bob'
+    };
+  `;
+  var result = find(code);
+
+  setEquals(t, result, new Set([]));
+});
+
+test('ignores non-global shorthand property in object literal', function(t) {
+  t.plan(1);
+
+  var code = `
+    var name = 'bob';
+    var a = {
+      name
+    };
+  `;
+  var result = find(code);
+
+  setEquals(t, result, new Set([]));
+});
+
+test('find global shorthand property in object literal', function(t) {
+  t.plan(1);
+
+  var code = `
+    var a = {
+      name
+    };
+  `;
+  var result = find(code);
+
+  setEquals(t, result, new Set(['name']));
+});
