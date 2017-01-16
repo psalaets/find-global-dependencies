@@ -27,7 +27,9 @@ result // Set { 'foo' }
 
 ## API
 
-`var findGlobalDeps = require('find-global-deps');`
+```js
+var findGlobalDeps = require('find-global-deps');
+```
 
 ### `findGlobalDeps(code[, options])`
 
@@ -35,13 +37,9 @@ Returns a `Set<string>` of names of global dependencies found.
 
 #### `code`
 
-String containing js code.
+String of js code.
 
-#### `options`
-
-Optional object containing any of
-
-- `options.environment`
+#### `options.environment`
 
 Optional array of strings. Defaults to `['es6', 'browser']`.
 
