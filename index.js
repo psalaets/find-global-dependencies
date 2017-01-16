@@ -30,7 +30,8 @@ function findGlobalDeps(code, options = {}) {
 
 function hasBinding(path) {
   var parent = path.findParent(path => path.isBlock() || path.isFunction());
-  return parent.scope.hasBinding(path.node.name, true);
+  var noGlobals = true;
+  return parent.scope.hasBinding(path.node.name, noGlobals);
 }
 
 function isArguments(path) {
