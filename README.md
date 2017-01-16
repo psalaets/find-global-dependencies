@@ -47,6 +47,20 @@ Specifies what environment `code` is written for. Any use of globals that come w
 
 Can contain any top-level property names of the object exported by the [globals module](https://github.com/sindresorhus/globals).
 
+*Examples*
+
+```js
+// node
+findGlobalDeps(code, {
+  environment: ['es6', 'node']
+});
+
+// commonjs in browser
+findGlobalDeps(code, {
+  environment: ['es6', 'browser', 'commonjs']
+});
+```
+
 ## Gotchas
 
 Does not detect (yet)
@@ -54,8 +68,6 @@ Does not detect (yet)
 - `window.foo` in browser
 - `this.foo` at top level in browser
 - `global.foo` in node
-
-No support for anything
 
 ## License
 
