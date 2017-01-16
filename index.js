@@ -4,9 +4,9 @@ var globals = require('globals');
 
 module.exports = findGlobalDeps;
 
-function findGlobalDeps(code, options = {additionalIgnoreLists: []}) {
+function findGlobalDeps(code, options = {environment: ['builtin', 'browser']}) {
   var globalDeps = new Set();
-  var isOnIgnoreList = makeIgnoreListChecker(options.additionalIgnoreLists);
+  var isOnIgnoreList = makeIgnoreListChecker(options.environment);
 
   var ast = babylon.parse(code);
   traverse(ast, {
@@ -27,7 +27,7 @@ function findGlobalDeps(code, options = {additionalIgnoreLists: []}) {
 }
 
 function hasBinding(path) {
-  var parent = path.findParent(path => path.isBlock() || path.isFunction())
+  var parent = path.findParent(path => path.isBlock() || path.isFunction());
   return parent.scope.hasBinding(path.node.name, true);
 }
 
@@ -53,10 +53,12 @@ function isInMemberExpression(path) {
   return false;
 }
 
-function makeIgnoreListChecker(listNames) {
-  var listObjects = listNames.map(name => globals[name] || invalidList(name));
-  // always ignore builtins
-  listObjects.unshift(globals.builtin);
+function makeIgnoreListChecker(environment) {
+  if (!Array.isArray(environment)) {
+    throw new Error('environment must be an Array');
+  }
+
+  var listObjects = environment.map(name => globals[name] || invalidList(name));
 
   return function isOnIgnoreList(path) {
     var identifierName = path.node.name;
@@ -65,5 +67,5 @@ function makeIgnoreListChecker(listNames) {
 }
 
 function invalidList(name) {
-  throw new Error(`Invalid ignore list: ${name}. Expected: ${Object.keys(globals).join(', ')}`);
+  throw new Error(`Invalid environment name: ${name}. Expected: ${Object.keys(globals).join(', ')}`);
 }

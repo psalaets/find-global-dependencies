@@ -264,7 +264,7 @@ test('ignores non-global shorthand property in object literal', function(t) {
   setEquals(t, result, new Set());
 });
 
-test('find global shorthand property in object literal', function(t) {
+test('finds global shorthand property in object literal', function(t) {
   t.plan(1);
 
   var code = `
