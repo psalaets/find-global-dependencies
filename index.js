@@ -5,7 +5,7 @@ var globals = require('globals');
 module.exports = findGlobalDeps;
 
 function findGlobalDeps(code, options = {}) {
-  var environment = options.environment || ['builtin', 'browser'];
+  var environment = options.environment || ['es6', 'browser'];
 
   var globalDeps = new Set();
   var isOnIgnoreList = makeIgnoreListChecker(environment);

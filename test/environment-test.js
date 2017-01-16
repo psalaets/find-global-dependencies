@@ -4,11 +4,11 @@ var setEquals = require('./set-equals-helper');
 
 var find = require('..');
 
-test('default environment: ignores javascript built-ins', function(t) {
+test('default environment: ignores es6 built-ins', function(t) {
   t.plan(2);
 
   var code = `
-    ${Object.keys(globals.builtin).join('\n')}
+    ${Object.keys(globals.es6).join('\n')}
   `;
   // no options
   var result = find(code);
