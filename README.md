@@ -6,7 +6,7 @@ Find what global variables are used in js code.
 
 For this module, a "global dependency" is a global variable used by your code that is not provided by the environment.
 
-Maybe you want to find these and do something with webpack's [`imports-loader`](https://github.com/webpack/imports-loader).
+Maybe you want to find these and do something with webpack's [imports-loader](https://github.com/webpack/imports-loader).
 
 ## Install
 
