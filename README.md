@@ -10,7 +10,7 @@ Maybe you want to find these and do something with webpack's [`imports-loader`](
 
 `npm install find-global-deps`
 
-Requires node 4 or later
+Requires node 6 or later
 
 ## Usage
 
