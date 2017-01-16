@@ -4,7 +4,7 @@ var setEquals = require('./set-equals-helper');
 
 var find = require('..');
 
-test('ignores javascript built-ins by default', function(t) {
+test('default environment: ignores javascript built-ins', function(t) {
   t.plan(1);
 
   var code = `
@@ -15,7 +15,7 @@ test('ignores javascript built-ins by default', function(t) {
   setEquals(t, result, new Set());
 });
 
-test('ignores browser built-ins by default', function(t) {
+test('default environment: ignores browser built-ins', function(t) {
   t.plan(1);
 
   var code = `
@@ -26,7 +26,7 @@ test('ignores browser built-ins by default', function(t) {
   setEquals(t, result, new Set());
 });
 
-test('finds node built-ins by default', function(t) {
+test('default environment: finds node built-ins', function(t) {
   t.plan(1);
 
   var code = `
@@ -37,7 +37,40 @@ test('finds node built-ins by default', function(t) {
   setEquals(t, result, new Set(['process']));
 });
 
-test('ignores node built-ins in node environment', function(t) {
+test('default environment: finds serviceworker built-ins', function(t) {
+  t.plan(1);
+
+  var code = `
+    FetchEvent;
+  `;
+  var result = find(code);
+
+  setEquals(t, result, new Set(['FetchEvent']));
+});
+
+test('default environment: finds commonjs built-ins', function(t) {
+  t.plan(1);
+
+  var code = `
+    module;
+  `;
+  var result = find(code);
+
+  setEquals(t, result, new Set(['module']));
+});
+
+test('default environment: finds amd built-ins', function(t) {
+  t.plan(1);
+
+  var code = `
+    define;
+  `;
+  var result = find(code);
+
+  setEquals(t, result, new Set(['define']));
+});
+
+test('node environment: ignores node built-ins', function(t) {
   t.plan(1);
 
   var code = `
@@ -50,18 +83,7 @@ test('ignores node built-ins in node environment', function(t) {
   setEquals(t, result, new Set());
 });
 
-test('finds serviceworker built-ins by default', function(t) {
-  t.plan(1);
-
-  var code = `
-    FetchEvent;
-  `;
-  var result = find(code);
-
-  setEquals(t, result, new Set(['FetchEvent']));
-});
-
-test('ignores serviceworker built-ins in serviceworker environment', function(t) {
+test('serviceworker environment: ignores serviceworker built-ins', function(t) {
   t.plan(1);
 
   var code = `
@@ -74,18 +96,7 @@ test('ignores serviceworker built-ins in serviceworker environment', function(t)
   setEquals(t, result, new Set());
 });
 
-test('finds commonjs built-ins by default', function(t) {
-  t.plan(1);
-
-  var code = `
-    module;
-  `;
-  var result = find(code);
-
-  setEquals(t, result, new Set(['module']));
-});
-
-test('ignores commonjs built-ins in commonjs environment', function(t) {
+test('commonjs environment: ignores commonjs built-ins', function(t) {
   t.plan(1);
 
   var code = `
@@ -98,18 +109,7 @@ test('ignores commonjs built-ins in commonjs environment', function(t) {
   setEquals(t, result, new Set());
 });
 
-test('finds amd built-ins by default', function(t) {
-  t.plan(1);
-
-  var code = `
-    define;
-  `;
-  var result = find(code);
-
-  setEquals(t, result, new Set(['define']));
-});
-
-test('ignores amd built-ins in amd environment', function(t) {
+test('amd environment: ignores amd built-ins', function(t) {
   t.plan(1);
 
   var code = `
@@ -122,11 +122,11 @@ test('ignores amd built-ins in amd environment', function(t) {
   setEquals(t, result, new Set());
 });
 
-test('can ignore any combo of additional built-ins', function(t) {
+test('can ignore any combo of environment-based built-ins', function(t) {
   t.plan(1);
 
   var code = `
-    ${Object.keys(globals.builtin).join('\n')}
+    ${Object.keys(globals.es5).join('\n')}
     ${Object.keys(globals.browser).join('\n')}
     ${Object.keys(globals.node).join('\n')}
     ${Object.keys(globals.serviceworker).join('\n')}
@@ -134,13 +134,13 @@ test('can ignore any combo of additional built-ins', function(t) {
     ${Object.keys(globals.amd).join('\n')}
   `;
   var result = find(code, {
-    environment: 'builtin browser node serviceworker commonjs amd'.split(' ')
+    environment: 'es5 browser node serviceworker commonjs amd'.split(' ')
   });
 
   setEquals(t, result, new Set());
 });
 
-test('blows up when given unknown environment name', function(t) {
+test('blows up on unknown environment name', function(t) {
   t.plan(1);
 
   var code = `foo`;
@@ -152,7 +152,7 @@ test('blows up when given unknown environment name', function(t) {
   }, /Invalid environment name/);
 });
 
-test('blows up when given environment specifier is not Array', function(t) {
+test('blows up when environment specifier is not Array', function(t) {
   t.plan(1);
 
   var code = `foo`;
