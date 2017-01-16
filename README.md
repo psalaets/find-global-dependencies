@@ -2,7 +2,9 @@
 
 Find what global variables are used in js code.
 
-For purposes of this module, a "global dependency" is a global variable used by your code that is not provided by the environment.
+## Purpose
+
+For this module, a "global dependency" is a global variable used by your code that is not provided by the environment.
 
 Maybe you want to find these and do something with webpack's [`imports-loader`](https://github.com/webpack/imports-loader).
 
@@ -39,13 +41,13 @@ String containing js code.
 
 Optional object containing any of
 
-##### environment: Array<String>
+- environment
 
-Optional. Defaults to `['es6', 'browser']`.
+Optional array of strings. Defaults to `['es6', 'browser']`.
 
 Specifies what environment `code` is written for. Any use of globals that come with these environments (e.g. `process` in node) will not be reported.
 
-Array can contain any top-level property names of the object exported by the [globals module](https://github.com/sindresorhus/globals).
+Can contain any top-level property names of the object exported by the [globals module](https://github.com/sindresorhus/globals).
 
 ## Gotchas
 
