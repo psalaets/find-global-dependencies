@@ -30,6 +30,7 @@ function hasBinding(path) {
   return parent.scope.hasBinding(path.node.name);
 }
 
+// is identifier the foo in `{foo: 5}`
 function isObjectPropertyName(path) {
   var parent = path.parentPath;
   if (parent.isObjectProperty()) {
@@ -38,8 +39,13 @@ function isObjectPropertyName(path) {
   return false;
 }
 
+// is identifier the foo in `obj.foo`
 function isInMemberExpression(path) {
-  return !!path.findParent(path => path.isMemberExpression());
+  var parent = path.parentPath;
+  if (parent.isMemberExpression()) {
+    return !parent.node.computed && parent.node.property === path.node;
+  }
+  return false;
 }
 
 function makeIgnoreListChecker(listNames) {

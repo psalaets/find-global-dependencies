@@ -122,6 +122,17 @@ test('ignores property access', function(t) {
   setEquals(t, result, new Set([]));
 });
 
+test('finds global on left side of member access', function(t) {
+  t.plan(1);
+
+  var code = `
+    foo.name;
+  `;
+  var result = find(code);
+
+  setEquals(t, result, new Set(['foo']));
+});
+
 test('finds multiple accesses at various levels', function(t) {
   t.plan(1);
 
