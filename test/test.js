@@ -269,10 +269,10 @@ test('finds global shorthand property in object literal', function(t) {
 
   var code = `
     var a = {
-      name
+      foo
     };
   `;
   var result = find(code);
 
-  setEquals(t, result, new Set(['name']));
+  setEquals(t, result, new Set(['foo']));
 });
