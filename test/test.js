@@ -119,7 +119,7 @@ test('ignores property access', function(t) {
   `;
   var result = find(code);
 
-  setEquals(t, result, new Set([]));
+  setEquals(t, result, new Set());
 });
 
 test('finds global on left side of member access', function(t) {
@@ -182,7 +182,7 @@ test('ignores arguments object in function', function(t) {
   `;
   var result = find(code);
 
-  setEquals(t, result, new Set([]));
+  setEquals(t, result, new Set());
 });
 
 test('ignores this in function', function(t) {
@@ -195,7 +195,7 @@ test('ignores this in function', function(t) {
   `;
   var result = find(code);
 
-  setEquals(t, result, new Set([]));
+  setEquals(t, result, new Set());
 });
 
 test('ignores this at top level', function(t) {
@@ -206,7 +206,7 @@ test('ignores this at top level', function(t) {
   `;
   var result = find(code);
 
-  setEquals(t, result, new Set([]));
+  setEquals(t, result, new Set());
 });
 
 test('ignores let in a block', function(t) {
@@ -220,7 +220,7 @@ test('ignores let in a block', function(t) {
   `;
   var result = find(code);
 
-  setEquals(t, result, new Set([]));
+  setEquals(t, result, new Set());
 });
 
 test('ignores const in a block', function(t) {
@@ -234,7 +234,7 @@ test('ignores const in a block', function(t) {
   `;
   var result = find(code);
 
-  setEquals(t, result, new Set([]));
+  setEquals(t, result, new Set());
 });
 
 test('ignores property names in object literal', function(t) {
@@ -247,7 +247,7 @@ test('ignores property names in object literal', function(t) {
   `;
   var result = find(code);
 
-  setEquals(t, result, new Set([]));
+  setEquals(t, result, new Set());
 });
 
 test('ignores non-global shorthand property in object literal', function(t) {
@@ -261,7 +261,7 @@ test('ignores non-global shorthand property in object literal', function(t) {
   `;
   var result = find(code);
 
-  setEquals(t, result, new Set([]));
+  setEquals(t, result, new Set());
 });
 
 test('find global shorthand property in object literal', function(t) {
