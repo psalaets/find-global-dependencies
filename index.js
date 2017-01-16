@@ -8,13 +8,13 @@ function findGlobalDeps(code, options = {}) {
   var environment = options.environment || ['es6', 'browser'];
 
   var globalDeps = new Set();
-  var isOnIgnoreList = makeIgnoreListChecker(environment);
+  var isIgnored = makeIgnoredGlobalChecker(environment);
 
   var ast = babylon.parse(code);
   traverse(ast, {
     Identifier: {
       enter(path) {
-        if (isOnIgnoreList(path)) return;
+        if (isIgnored(path)) return;
         if (isInMemberExpression(path)) return;
         if (isObjectPropertyName(path)) return;
         if (isArguments(path)) return;
@@ -56,12 +56,12 @@ function isInMemberExpression(path) {
   return false;
 }
 
-function makeIgnoreListChecker(environment) {
+function makeIgnoredGlobalChecker(environment) {
   if (!Array.isArray(environment)) {
     throw new Error('environment must be an Array');
   }
 
-  var listObjects = environment.map(name => globals[name] || invalidList(name));
+  var listObjects = environment.map(name => globals[name] || invalidEnv(name));
 
   return function isOnIgnoreList(path) {
     var identifierName = path.node.name;
@@ -69,6 +69,6 @@ function makeIgnoreListChecker(environment) {
   };
 }
 
-function invalidList(name) {
+function invalidEnv(name) {
   throw new Error(`Invalid environment name: ${name}. Expected: ${Object.keys(globals).join(', ')}`);
 }
