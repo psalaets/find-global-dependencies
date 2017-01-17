@@ -18,6 +18,7 @@ function findGlobalDeps(code, options = {}) {
         if (isInMemberExpression(path)) return;
         if (isObjectPropertyName(path)) return;
         if (isArguments(path)) return;
+        if (isParamToCatchClause(path)) return;
         if (hasBinding(path)) return;
 
         globalDeps.add(path.node.name);
@@ -32,6 +33,12 @@ function hasBinding(path) {
   var parent = path.findParent(path => path.isBlock() || path.isFunction());
   var noGlobals = true;
   return parent.scope.hasBinding(path.node.name, noGlobals);
+}
+
+// is identifier the foo in `try {} catch (foo) {}`
+function isParamToCatchClause(path) {
+  var parent = path.findParent(path => path.isCatchClause());
+  return !!parent && parent.node.param === path.node;
 }
 
 function isArguments(path) {

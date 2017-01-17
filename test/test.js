@@ -276,3 +276,18 @@ test('finds global shorthand property in object literal', function(t) {
 
   setEquals(t, result, new Set(['foo']));
 });
+
+test('ignores param to a catch()', function(t) {
+  t.plan(1);
+
+  var code = `
+    try {
+
+    } catch (e) {
+
+    }
+  `;
+  var result = find(code);
+
+  setEquals(t, result, new Set());
+});
