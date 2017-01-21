@@ -72,3 +72,7 @@ Does not detect (yet)
 ## License
 
 MIT
+
+## Related
+
+- [find-global-deps-cli](https://github.com/psalaets/find-global-deps-cli)
