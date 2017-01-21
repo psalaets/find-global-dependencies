@@ -6,7 +6,7 @@
   "scripts": {
     "test": "tape 'test/*test.js'"
   },
-  "keywords": ["global", "dependency", "detect", "legacy", "imports", "loader"],
+  "keywords": ["find", "detect", "global", "globals", "dependency"],
   "author": "Paul Salaets <psalaets@gmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/psalaets/find-global-deps",
