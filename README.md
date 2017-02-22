@@ -45,7 +45,7 @@ Optional array of strings. Defaults to `['es6', 'browser']`.
 
 Specifies what environment `code` is written for. Any use of globals that come with these environments (e.g. `process` in node) will not be reported.
 
-Can contain any top-level property names of the object exported by the [globals module](https://github.com/sindresorhus/globals).
+Can contain any top-level property names of the object exported by the [globals module](https://github.com/sindresorhus/globals) which are: `builtin`, `es5`, `es6`, `browser`, `worker`, `node`, `commonjs`, `amd`, `serviceworker` and more.
 
 *Examples*
 
